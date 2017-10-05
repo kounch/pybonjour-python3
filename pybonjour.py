@@ -858,6 +858,11 @@ def _length_and_void_p_to_string(length, void_p):
     return ''.join(char_p[i].decode('utf-8') for i in range(length))
 
 
+def _length_and_void_p_to_bytes(length, void_p):
+    char_p = ctypes.cast(void_p, ctypes.POINTER(ctypes.c_char))
+    return b''.join(char_p[i] for i in range(length))
+
+
 
 ################################################################################
 #
@@ -1769,7 +1774,7 @@ def DNSServiceQueryRecord(
         kDNSServiceClass_IN).
 
       rdata:
-        A string containing the raw rdata of the resource record.
+        Bytes containing the raw rdata of the resource record.
 
       ttl:
         The resource record's time to live, in seconds.
@@ -1783,7 +1788,8 @@ def DNSServiceQueryRecord(
     def _callback(sdRef, flags, interfaceIndex, errorCode, fullname, rrtype,
                   rrclass, rdlen, rdata, ttl, context):
         if callBack is not None:
-            rdata = _length_and_void_p_to_string(rdlen, rdata)
+            rdata = _length_and_void_p_to_bytes(rdlen, rdata)
+
             callBack(sdRef, flags, interfaceIndex, errorCode, fullname.decode(),
                      rrtype, rrclass, rdata, ttl)
 

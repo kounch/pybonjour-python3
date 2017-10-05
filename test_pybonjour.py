@@ -177,8 +177,8 @@ class TestPyBonjour(unittest.TestCase):
             self.assertEqual(fullname, self.fullname)
             self.assertEqual(_rrtype, rrtype)
             self.assertEqual(rrclass, kDNSServiceClass_IN)
-            self.assert_(isinstance(_rdata, str))
-            self.assertEqual(_rdata, rdata)
+            self.assertTrue(isinstance(_rdata, bytes))
+            self.assertEqual(_rdata.decode(), rdata)
             done.set()
 
         sdRef = DNSServiceQueryRecord(fullname=self.fullname,
