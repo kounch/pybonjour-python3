@@ -54,7 +54,7 @@ class TestPyBonjour(unittest.TestCase):
         fullname = DNSServiceConstructFullName(self.service_name,
                                                self.regtype, 'local.')
 
-        self.assert_(isinstance(fullname, unicode))
+        self.assertTrue(isinstance(fullname, str))
         if not fullname.endswith(u'.'):
             fullname += u'.'
         self.assertEqual(fullname, self.fullname)
@@ -62,7 +62,7 @@ class TestPyBonjour(unittest.TestCase):
     def wait_on_event(self, sdRef, event):
         while not event.isSet():
             ready = select.select([sdRef], [], [], self.timeout)
-            self.assert_(sdRef in ready[0], 'operation timed out')
+            self.assertTrue(sdRef in ready[0], 'operation timed out')
             DNSServiceProcessResult(sdRef)
 
     def test_enumerate_domains(self):
@@ -71,7 +71,7 @@ class TestPyBonjour(unittest.TestCase):
         def cb(_sdRef, flags, interfaceIndex, errorCode, replyDomain):
             self.assertEqual(errorCode, kDNSServiceErr_NoError)
             self.assertEqual(_sdRef, sdRef)
-            self.assert_(isinstance(replyDomain, unicode))
+            self.assertTrue(isinstance(replyDomain, str))
             if not (flags & kDNSServiceFlagsMoreComing):
                 done.set()
 
@@ -90,11 +90,11 @@ class TestPyBonjour(unittest.TestCase):
         def cb(_sdRef, flags, errorCode, name, regtype, domain):
             self.assertEqual(errorCode, kDNSServiceErr_NoError)
             self.assertEqual(_sdRef, sdRef)
-            self.assert_(isinstance(name, unicode))
+            self.assertTrue(isinstance(name, str))
             self.assertEqual(name, self.service_name)
-            self.assert_(isinstance(regtype, unicode))
+            self.assertTrue(isinstance(regtype, str))
             self.assertEqual(regtype, self.regtype)
-            self.assert_(isinstance(domain, unicode))
+            self.assertTrue(isinstance(domain, str))
             done.set()
 
         txt = TXTRecord()
@@ -116,25 +116,25 @@ class TestPyBonjour(unittest.TestCase):
                       regtype, replyDomain):
             self.assertEqual(errorCode, kDNSServiceErr_NoError)
             self.assertEqual(sdRef, browse_sdRef)
-            self.assert_(flags & kDNSServiceFlagsAdd)
-            self.assert_(isinstance(serviceName, unicode))
+            self.assertTrue(flags & kDNSServiceFlagsAdd)
+            self.assertTrue(isinstance(serviceName, str))
             self.assertEqual(serviceName, self.service_name)
-            self.assert_(isinstance(regtype, unicode))
+            self.assertTrue(isinstance(regtype, str))
             self.assertEqual(regtype, self.regtype)
-            self.assert_(isinstance(replyDomain, unicode))
+            self.assertTrue(isinstance(replyDomain, str))
 
             def resolve_cb(sdRef, flags, interfaceIndex, errorCode,
                            fullname, hosttarget, port, txtRecord):
                 self.assertEqual(errorCode, kDNSServiceErr_NoError)
                 self.assertEqual(sdRef, resolve_sdRef)
-                self.assert_(isinstance(fullname, unicode))
+                self.assertTrue(isinstance(fullname, str))
                 self.assertEqual(fullname, self.fullname)
-                self.assert_(isinstance(hosttarget, unicode))
+                self.assertTrue(isinstance(hosttarget, str))
                 self.assertEqual(port, self.port)
-                self.assert_(isinstance(txtRecord, str))
+                self.assertTrue(isinstance(txtRecord, str))
                 txt = TXTRecord.parse(txtRecord)
                 self.assertEqual(txt['foo'], 'foobar')
-                self.assert_(len(txtRecord) > 0)
+                self.assertTrue(len(txtRecord) > 0)
                 resolve_done.set()
 
             resolve_sdRef = DNSServiceResolve(0, interfaceIndex,
@@ -173,7 +173,7 @@ class TestPyBonjour(unittest.TestCase):
                rrclass, _rdata, ttl):
             self.assertEqual(errorCode, kDNSServiceErr_NoError)
             self.assertEqual(_sdRef, sdRef)
-            self.assert_(isinstance(fullname, unicode))
+            self.assertTrue(isinstance(fullname, str))
             self.assertEqual(fullname, self.fullname)
             self.assertEqual(_rrtype, rrtype)
             self.assertEqual(rrclass, kDNSServiceClass_IN)
@@ -199,7 +199,7 @@ class TestPyBonjour(unittest.TestCase):
             RecordRef = DNSServiceAddRecord(sdRef,
                                             rrtype=kDNSServiceType_SINK,
                                             rdata='foo')
-            self.assert_(RecordRef.value is not None)
+            self.assertTrue(RecordRef.value is not None)
             self.query_record(kDNSServiceType_SINK, 'foo')
 
             DNSServiceUpdateRecord(sdRef, RecordRef, rdata='bar')
@@ -209,7 +209,7 @@ class TestPyBonjour(unittest.TestCase):
         finally:
             sdRef.close()
 
-        self.assert_(RecordRef.value is None)
+        self.assertTrue(RecordRef.value is None)
 
     def test_createconnection_registerrecord_reconfirmrecord(self):
         done = threading.Event()
@@ -230,7 +230,7 @@ class TestPyBonjour(unittest.TestCase):
                                          rrtype=kDNSServiceType_SINK,
                                          rdata='blah',
                                          callBack=cb)
-            self.assert_(RecordRef.value is not None)
+            self.assertTrue(RecordRef.value is not None)
 
             self.wait_on_event(sdRef, done)
 
@@ -242,12 +242,12 @@ class TestPyBonjour(unittest.TestCase):
         finally:
             sdRef.close()
 
-        self.assert_(RecordRef.value is None)
+        self.assertTrue(RecordRef.value is None)
 
     def test_txtrecord(self):
         txt = TXTRecord()
         self.assertEqual(len(txt), 0)
-        self.assert_(not txt)
+        self.assertTrue(not txt)
         self.assertEqual(str(txt), '\0')
 
         txt = TXTRecord({'foo': 'bar',
@@ -256,20 +256,20 @@ class TestPyBonjour(unittest.TestCase):
                          'empty': ''})
         self.assertEqual(txt['foo'], 'bar')
         self.assertEqual(txt['BaZ'], 'buzz')
-        self.assert_(txt['none'] is None)
+        self.assertTrue(txt['none'] is None)
         self.assertEqual(txt['empty'], '')
 
         self.assertEqual(len(txt), 4)
-        self.assert_(txt)
+        self.assertTrue(txt)
         self.assertEqual(str(txt), str(TXTRecord.parse(str(txt))))
 
         txt['baZ'] = 'fuzz'
         self.assertEqual(txt['baz'], 'fuzz')
         self.assertEqual(len(txt), 4)
 
-        self.assert_('foo' in txt)
+        self.assertTrue('foo' in txt)
         del txt['foo']
-        self.assert_('foo' not in txt)
+        self.assertTrue('foo' not in txt)
 
         self.assertRaises(KeyError, txt.__getitem__, 'not_a_key')
         self.assertRaises(KeyError, txt.__delitem__, 'not_a_key')
@@ -282,7 +282,7 @@ class TestPyBonjour(unittest.TestCase):
         data = '\x0Aname=value\x08paper=A4\x0EDNS-SD Is Cool'
         txt = TXTRecord.parse(data)
         self.assertEqual(str(txt), data)
-        self.assert_(txt['DNS-SD Is Cool'] is None)
+        self.assertTrue(txt['DNS-SD Is Cool'] is None)
 
         data = '\x04bar=\nfoo=foobar\nfoo=barfoo\n=foofoobar'
         txt = TXTRecord.parse(data)
