@@ -1,3 +1,11 @@
+1.1.2 (2017-10-05)
+------------------
+
+* Updated to work with python3
+
+* Changed return value of _DNSServiceQueryRecordReply to bytes instead of string. We can't assume that the value of rdata is always utf-8, it can be for example a ip address. Trying to decode it as utf-8 will throw an error. The user of the library should handle parsing the result
+
+
 1.1.1 (2008-05-08)
 ------------------
 

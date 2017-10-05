@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: pybonjour
-Version: 1.1.1
+Version: 1.1.2
 Summary: Pure-Python interface to Apple Bonjour and compatible DNS-SD libraries
 Home-page: http://o2s.csail.mit.edu/o2s-wiki/pybonjour
 Author: Christopher Stawarz
