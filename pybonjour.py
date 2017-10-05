@@ -844,6 +844,11 @@ _NO_DEFAULT = _NoDefault()
 def _string_to_length_and_void_p(string):
     if isinstance(string, TXTRecord):
         string = str(string)
+
+    # Sometimes string is bytes and sometimes it is string so I added encode here
+    if type(string) is str:
+        string = string.encode('utf-8')
+
     void_p = ctypes.cast(ctypes.c_char_p(string), ctypes.c_void_p)
     return len(string), void_p
 
