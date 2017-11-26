@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/TimoteusRuotsalainen/pybonjour-python3.svg?branch=master)](https://travis-ci.org/TimoteusRuotsalainen/pybonjour-python3)----------------------------------------------------
+[![Build Status](https://travis-ci.org/TimoteusRuotsalainen/pybonjour-python3.svg?branch=master)](https://travis-ci.org/TimoteusRuotsalainen/pybonjour-python3)
+----------------------------------------------------
 pybonjour:  Pure-Python interface to Apple Bonjour
 
 Author: Christopher Stawarz <cstawarz@csail.mit.edu>
