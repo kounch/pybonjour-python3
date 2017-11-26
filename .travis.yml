@@ -7,6 +7,8 @@ python:
 install:
   - pip install flake8
 
-script:
+before-script:
   - flake8 .
+
+script:
   - python -m unittest test_pybonjour.py
