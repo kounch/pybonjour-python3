@@ -50,6 +50,7 @@ def browse_callback(sdRef, flags, interfaceIndex, errorCode, serviceName,
     finally:
         resolve_sdRef.close()
 
+
 browse_sdRef = pybonjour.DNSServiceBrowse(regtype=regtype,
                                           callBack=browse_callback)
 

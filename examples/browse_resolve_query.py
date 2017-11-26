@@ -3,17 +3,16 @@ import socket
 import sys
 import pybonjour
 
-
-regtype  = sys.argv[1]
-timeout  = 5
-queried  = []
+regtype = sys.argv[1]
+timeout = 5
+queried = []
 resolved = []
 
 
 def query_record_callback(sdRef, flags, interfaceIndex, errorCode, fullname,
                           rrtype, rrclass, rdata, ttl):
     if errorCode == pybonjour.kDNSServiceErr_NoError:
-        print ('  IP         =', socket.inet_ntoa(rdata))
+        print('  IP         =', socket.inet_ntoa(rdata))
         queried.append(True)
 
 
@@ -28,10 +27,10 @@ def resolve_callback(sdRef, flags, interfaceIndex, errorCode, fullname,
     print('  port       =', port)
 
     query_sdRef = \
-        pybonjour.DNSServiceQueryRecord(interfaceIndex = interfaceIndex,
-                                        fullname = hosttarget,
-                                        rrtype = pybonjour.kDNSServiceType_A,
-                                        callBack = query_record_callback)
+        pybonjour.DNSServiceQueryRecord(interfaceIndex=interfaceIndex,
+                                        fullname=hosttarget,
+                                        rrtype=pybonjour.kDNSServiceType_A,
+                                        callBack=query_record_callback)
 
     try:
         while not queried:
@@ -79,8 +78,8 @@ def browse_callback(sdRef, flags, interfaceIndex, errorCode, serviceName,
         resolve_sdRef.close()
 
 
-browse_sdRef = pybonjour.DNSServiceBrowse(regtype = regtype,
-                                          callBack = browse_callback)
+browse_sdRef = pybonjour.DNSServiceBrowse(regtype=regtype,
+                                          callBack=browse_callback)
 
 try:
     try:

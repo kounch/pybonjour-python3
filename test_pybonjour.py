@@ -25,13 +25,17 @@
 ################################################################################
 
 
-
 import select
 import threading
 import time
 import unittest
+import ctypes
 
-from pybonjour import *
+from pybonjour import TXTRecord, kDNSServiceType_SINK, DNSServiceReconfirmRecord, \
+    kDNSServiceFlagsUnique, DNSServiceRegisterRecord, DNSServiceCreateConnection, kDNSServiceErr_NoError, \
+    DNSServiceRemoveRecord, DNSServiceConstructFullName, BonjourError, DNSServiceProcessResult, kDNSServiceFlagsMoreComing, \
+    DNSServiceEnumerateDomains, kDNSServiceFlagsRegistrationDomains, DNSServiceRegister, kDNSServiceFlagsAdd, DNSServiceResolve, \
+    DNSServiceBrowse, kDNSServiceClass_IN, DNSServiceQueryRecord, DNSServiceAddRecord, DNSServiceUpdateRecord
 
 
 class TestPyBonjour(unittest.TestCase):

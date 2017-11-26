@@ -12,7 +12,7 @@ def register_callback(sdRef, flags, errorCode, name, regtype, domain):
         print('Registered service:')
         print('  name    =', name)
         print('  regtype =', regtype)
-        print ('  domain  =', domain)
+        print('  domain  =', domain)
 
 
 sdRef = pybonjour.DNSServiceRegister(name=name,
