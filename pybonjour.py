@@ -1117,7 +1117,7 @@ def DNSServiceRegister(
             type=type(txtRecord)))
 
     if not txtRecord:
-        txtLen, txtRecord = 1, '\0'
+        txtLen, txtRecord = 1, '\0'.encode('utf-8')
     else:
         txtLen, txtRecord = _string_to_length_and_void_p(txtRecord)
 
