@@ -1,3 +1,10 @@
+1.1.3 (2019-03-05)
+
+* Compatibility with Python 3.7
+* Removed Travis
+* Rewritten setup to build local package
+* Added LICENSE file
+
 1.1.2 (2017-10-05)
 ------------------
 
